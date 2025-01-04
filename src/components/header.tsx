@@ -5,12 +5,12 @@ import Search from "./search";
 import FileUploader from "./file-uploader";
 import { handleLogout } from "@/lib/actions/user.action";
 
-function Header() {
+function Header({accountId, userId}:{accountId:string, userId:string}) {
   return (
     <header className="header">
       <Search />
       <div className="header-wrapper">
-        <FileUploader />
+        <FileUploader accountId={accountId} ownerId={userId}/>
         <form
           action={async () => {
             "use server";

@@ -88,10 +88,10 @@ function MobileNavigation({ user }: { user: User }) {
             </nav>
             <Separator className="my-4 bg-light-200/20" />
             <div className="flex flex-col justify-between gap-5 pb-5">
-              <FileUploader />
+              <FileUploader accountId={user.accountId} ownerId={user.$id} />
               <Button
                 type="submit"
-                className="mobile-sign-out-button"
+                className="mobile-sign-out-button w-full flex-1"
                 onClick={async () =>await handleLogout()}
               >
                 <Image
