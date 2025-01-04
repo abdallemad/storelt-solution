@@ -62,7 +62,12 @@ function ActionDropdown({ file }: { file: FileDocument }) {
         }),
       share: () =>
         updateFileUsers({ emails, fileId: file.$id, path: pathname }),
-      delete: () => deleteFile({fileId:file.$id, path:pathname}),
+      delete: () =>
+        deleteFile({
+          fileId: file.$id,
+          path: pathname,
+          bucketFileId: file.bucketFileId,
+        }),
     };
     success = await actions[action.value as keyof typeof actions]();
     if (success) closeAllModals();

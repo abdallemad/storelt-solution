@@ -1,16 +1,25 @@
 import Card from "@/components/card";
 import Sort from "@/components/sort";
 import { getFiles } from "@/lib/actions/file.action";
+import { getFileTypesParams } from "@/lib/utils";
+import { notFound } from "next/navigation";
 
 interface SearchParams {
   params: {
     [key: string]: string | string[] | undefined;
   };
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
 }
 
-async function Page({ params }: SearchParams) {
+async function Page({ params,searchParams }: SearchParams) {
   const type = ((await params)?.type as string) || "";
-  const files = (await getFiles()) as FileDocument[];
+  const searchText = ((await searchParams)?.query as string) || '';
+  const sort = ((await searchParams)?.sort as string) || '';
+  if(!['images','others','documents','media'].includes(type)) return notFound();
+  const types = getFileTypesParams(type) as FileType[];
+  const files = (await getFiles({types, searchText,sort})) as FileDocument[];
   return (
     <div className="page-container">
       <section className="w-full">

@@ -20,3 +20,9 @@ declare interface ActionType {
   icon: string;
   value: string;
 }
+declare interface GetFilesProps {
+  types?: FileType[];
+  searchText?: string;
+  sort?: string;
+  limit?: number;
+}
