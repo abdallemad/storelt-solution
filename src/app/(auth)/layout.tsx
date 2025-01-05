@@ -1,7 +1,20 @@
+'use server';
+
 import React from "react";
 import Image from "next/image";
+import { getCurrentUser } from "@/lib/actions/user.action";
+import { redirect } from "next/navigation";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout =async ({ children }: { children: React.ReactNode }) => {
+
+  let user: User | undefined;
+    try {
+      console.log('before we git ')
+      user = (await getCurrentUser()) as User;
+    } catch (error) {
+      console.log('application crashed');
+    }
+  if(user) return redirect('/');
   return (
     <div className="flex min-h-screen">
       <section className="hidden w-1/2 items-center justify-center bg-brand p-10 lg:flex xl:w-2/5">
