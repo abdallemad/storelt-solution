@@ -10,7 +10,7 @@ async function layout({ children }: { children: React.ReactNode }) {
   let user: User | undefined;
   try {
     user = (await getCurrentUser()) as User;
-    if (!user) return redirect("/sign-in");
+    if (!user) return redirect("/sign-up");
   } catch (error) {
     return redirect("/sign-in");
   }
