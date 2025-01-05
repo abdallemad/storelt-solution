@@ -9,13 +9,14 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 async function layout({ children }: { children: React.ReactNode }) {
-  let user: User | undefined;
+  let user: User | undefined
   try {
-    user = (await getCurrentUser()) as User;
+    user = await getCurrentUser() as User;
   } catch (error) {
     console.log(error);
+    user = undefined;
   }
-  if (!user) return redirect("/sign-up");
+  if (!user) return redirect("/sign-in");
   return (
     <main className="flex h-screen">
       <Sidebar
