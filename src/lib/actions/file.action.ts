@@ -4,7 +4,7 @@ import { InputFile } from "node-appwrite/file";
 import { appwriteConfig } from "../appwrite/config";
 import { ID, Query } from "node-appwrite";
 import { constructFileUrl, getFileType, parseStringify } from "../utils";
-import { David_Libre } from "next/font/google";
+import { Allura, David_Libre } from "next/font/google";
 import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "./user.action";
 
@@ -142,7 +142,56 @@ export const updateFileUsers = async ({
     handleError(error, "Failed to rename file");
   }
 };
-
+export const getEachUsage = async ()=>{
+  try {
+    const allFiles = await getFiles({sort:'$updatedAt-desc'}) as FileDocument[]
+    const sizes = {
+      images:{
+        size:0,
+        finalUpdate:'',
+        url:'/images',
+        icon:'/assets/icons/images.svg'
+      },
+      documents:{
+        size:0,
+        finalUpdate:'',
+        url:'/documents',
+        icon:'/assets/icons/thumb-other.svg'
+      },
+      media:{
+        size:0,
+        finalUpdate:'',
+        url:'/media',
+        icon:'/assets/icons/thumb-video.svg'
+      },
+      others:{
+        size:0,
+        finalUpdate:'',
+        url:'/others',
+        icon:'/assets/icons/thumb-other.svg'
+      },
+    }
+    allFiles.forEach(file=>{
+      if(file.type === 'image') {
+        sizes.images.size += file.size;
+        sizes.images.finalUpdate = file.$updatedAt;
+      }else if(file.type === 'document') {
+        sizes.documents.size += file.size;
+        sizes.documents.finalUpdate = file.$updatedAt;
+      }else if(file.type === 'audio' || file.type === 'video') {
+        sizes.media.size += file.size;
+        sizes.media.finalUpdate = file.$updatedAt;
+      }else if(file.type === 'other') {
+        sizes.others.size += file.size;
+        sizes.others.finalUpdate = file.$updatedAt;
+      }
+    })
+    const allUsage = allFiles.reduce((acc, file) => acc + file.size, 0)
+    return [ sizes, allUsage];
+  } catch (error) {
+    handleError(error,'try do make another request')
+  }
+}
 const handleError = (error: unknown, message: string) => {
   console.log(error, message);
   throw error;

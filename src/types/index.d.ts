@@ -1,12 +1,12 @@
-interface RenameFileProps{
-  fileId:string;
-  name:string;
-  extension:string;
+interface RenameFileProps {
+  fileId: string;
+  name: string;
+  extension: string;
   path: string;
 }
-interface UpdateFileUsers{
-  fileId:string;
-  emails:string[];
+interface UpdateFileUsers {
+  fileId: string;
+  emails: string[];
   path: string;
 }
 interface UploadFileProps {
@@ -26,3 +26,32 @@ declare interface GetFilesProps {
   sort?: string;
   limit?: number;
 }
+type ResultType = [
+  {
+    images: {
+        size: number;
+        finalUpdate: string;
+        url: string;
+        icon: string;
+    };
+    documents: {
+        size: number;
+        finalUpdate: string;
+        url: string;
+        icon: string;
+    };
+    media: {
+        size: number;
+        finalUpdate: string;
+        url: string;
+        icon: string;
+    };
+    others: {
+      size: number;
+      finalUpdate: string;
+      url: string;
+      icon: string;
+  };
+},
+  number,
+];
